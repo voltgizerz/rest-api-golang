@@ -1,17 +1,19 @@
 REST API GOLANG
+SIMPLE REST API GOLANG
 
-Build With
+BUILD WITH
 - MySQL
 - Gin
 - GORM
 
-How to run ?
+HOW TO RUN PROJECT ?
 - Import database pokemon.sql at folder config
 - run project using go run main.go
 
 GET
 - api/v1/pokemons (retrive all pokemons data)
 -
+
 POST
 -
 
