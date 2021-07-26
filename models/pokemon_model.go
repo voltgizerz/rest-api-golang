@@ -13,3 +13,11 @@ func GetAllPokemons(pokemon *[]Pokemon) (err error) {
 	}
 	return nil
 }
+
+//GetSinglePokemon singel pokemon data
+func GetSinglePokemon(pokemon *[]Pokemon, id string) (err error) {
+	if err = config.DB.Preload(clause.Associations).Where("id = ?", id).Find(pokemon).Error; err != nil {
+	 	return err
+	}
+	return nil
+}

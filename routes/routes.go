@@ -9,7 +9,8 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	grp1 := r.Group("/api/v1/")
 	{
-	 	grp1.GET("pokemons", controllers.GetPokemons)
+		grp1.GET("pokemons/", controllers.GetPokemons)
+	 	grp1.GET("pokemons/:id", controllers.GetPokemons)
 	}
 	
 	return r

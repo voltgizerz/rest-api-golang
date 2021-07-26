@@ -9,8 +9,15 @@ import (
 
 //GetUsers ... Get all users
 func GetPokemons(c *gin.Context) {
+	id := c.Param("id")
+	var err error
 	var pokemon []models.Pokemon
-	err := models.GetAllPokemons(&pokemon)
+	if id == "" {
+		err = models.GetAllPokemons(&pokemon)
+	} else {
+		err = models.GetSinglePokemon(&pokemon, id)
+	}
+
 	if err != nil {
 	 c.AbortWithStatus(http.StatusNotFound)
 	} else {
