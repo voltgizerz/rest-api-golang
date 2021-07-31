@@ -65,3 +65,23 @@ func PostPokemons(c *gin.Context) {
 		}
 	}
 }
+
+//DeletePokemon delete pokemon
+func DeletePokemon(c *gin.Context) {
+	id := c.Param("id")
+	result :=  models.DeletePokemon(id)
+	if result != nil {
+		// Failed insert pokemon to database
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusInternalServerError,
+			"message": "failed insert data to database",
+		})
+	} else {
+		// success deleted new pokemon
+		c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"message": "deleted",
+			"deleted_at": time.Now().Format(time.RFC850),
+		})
+	}
+}

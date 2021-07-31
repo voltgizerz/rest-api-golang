@@ -29,3 +29,12 @@ func CreatePokemon(pokemon *Pokemon) (err error) {
 	}
 	return nil
 }
+
+//DeleteSinglePokemon create singel pokemon data
+func DeletePokemon(id string) (err error) {
+	var pokemon *Pokemon
+	if err = config.DB.Delete(&pokemon, id).Error; err != nil {
+	 	return err
+	}
+	return nil
+}
