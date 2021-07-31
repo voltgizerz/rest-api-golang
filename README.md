@@ -7,11 +7,39 @@ Simple REST APIs about Pokemon Build with Golang you can CRUD this APIs freely ð
 
 # HOW TO RUN PROJECT ?
 - Import database pokemon.sql at folder config
-- run project using <b>go run main.go</b>
+- run this project using <b>go run main.go</b>
 
 # GET
 - [api/v1/pokemons](https://pokemon-api-go.herokuapp.com/api/v1/pokemons) (retrive all pokemons data)
 - [api/v1/pokemons/:id](https://pokemon-api-go.herokuapp.com/api/v1/pokemons/1)  (retrive specific pokemon data)
+- Response :
+
+```json 
+{
+  "status": 200,
+  "data": [
+      {
+          "id": 2,
+          "name": "ivysaur",
+          "height": 10,
+          "weight": 130,
+          "base_experience": 142,
+          "types": [
+              {
+                  "id": 4,
+                  "name": "poison",
+                  "damage_type_id": 4
+              },
+              {
+                  "id": 12,
+                  "name": "grass",
+                  "damage_type_id": 12
+              }
+          ]
+      }
+  ]
+}
+```
 
 # POST
 - [api/v1/pokemons](https://pokemon-api-go.herokuapp.com/api/v1/pokemons) (create new pokemon)
@@ -26,7 +54,7 @@ Simple REST APIs about Pokemon Build with Golang you can CRUD this APIs freely ð
 }
 ```
 
-Response :
+- Response :
 
 ```json 
 {
