@@ -11,6 +11,7 @@ func SetupRouter() *gin.Engine {
 	{
 		grp1.GET("pokemons/", controllers.GetPokemons)
 	 	grp1.GET("pokemons/:id", controllers.GetPokemons)
+		grp1.POST("pokemons/", controllers.PostPokemons)
 	}
 	
 	return r
