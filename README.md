@@ -75,7 +75,7 @@ Simple REST APIs about Pokemon Build with Golang you can CRUD this APIs freely ð
 - TBA
 
 # DELETE
-- [api/v1/pokemons](https://pokemon-api-go.herokuapp.com/api/v1/pokemons/700) (delete pokemon)
+- [api/v1/pokemons/:id](https://pokemon-api-go.herokuapp.com/api/v1/pokemons/700) (delete pokemon)
 - Response :
 
 ```json 
