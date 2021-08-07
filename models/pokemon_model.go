@@ -38,3 +38,11 @@ func DeletePokemon(id string) (err error) {
 	}
 	return nil
 }
+
+//UpdatePokemon to update pokemon data
+func UpdatePokemon(pokemon *Pokemon, id string) (err error) {
+	if err = config.DB.Model(&pokemon).Where("id = ?", id).Updates(pokemon).Error; err != nil {
+	 	return err
+	}
+	return nil
+}
