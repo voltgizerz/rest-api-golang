@@ -27,7 +27,7 @@ func GetPokemons(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"status": http.StatusOK,
+			"code": http.StatusOK,
 			"data":   pokemon,
 		})
 	}
@@ -41,7 +41,7 @@ func PostPokemons(c *gin.Context) {
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  http.StatusBadRequest,
+			"code":  http.StatusBadRequest,
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
@@ -50,14 +50,14 @@ func PostPokemons(c *gin.Context) {
 		if result != nil {
 			// Failed insert pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":  http.StatusInternalServerError,
+				"code":  http.StatusInternalServerError,
 				"message": "failed insert data to database",
 				"data":    pokemon,
 			})
 		} else {
 			// success created new pokemon
 			c.JSON(http.StatusCreated, gin.H{
-				"status":     http.StatusCreated,
+				"code":     http.StatusCreated,
 				"message":    "created",
 				"created_at": time.Now().Format(time.RFC850),
 				"data":       pokemon,
@@ -75,7 +75,7 @@ func PatchPokemons(c *gin.Context) {
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  http.StatusBadRequest,
+			"code":  http.StatusBadRequest,
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
@@ -84,14 +84,14 @@ func PatchPokemons(c *gin.Context) {
 		if result != nil {
 			// Failed update pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":  http.StatusInternalServerError,
+				"code":  http.StatusInternalServerError,
 				"message": "failed update data to database",
 				"data":    pokemon,
 			})
 		} else {
 			// success updated pokemon
 			c.JSON(http.StatusCreated, gin.H{
-				"status":     http.StatusCreated,
+				"code":     http.StatusCreated,
 				"message":    "updated",
 				"updated_at": time.Now().Format(time.RFC850),
 				"data":       pokemon,
@@ -107,13 +107,13 @@ func DeletePokemon(c *gin.Context) {
 	if result != nil {
 		// Failed insert pokemon to database
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  http.StatusInternalServerError,
+			"code":  http.StatusInternalServerError,
 			"message": "failed insert data to database",
 		})
 	} else {
 		// success deleted new pokemon
 		c.JSON(http.StatusOK, gin.H{
-			"status":     http.StatusOK,
+			"code":     http.StatusOK,
 			"message":    "deleted",
 			"deleted_at": time.Now().Format(time.RFC850),
 		})

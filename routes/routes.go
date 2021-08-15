@@ -15,6 +15,11 @@ func SetupRouter() *gin.Engine {
 		grp1.PATCH("pokemons/:id", controllers.PatchPokemons)
 		grp1.DELETE("pokemons/:id", controllers.DeletePokemon)
 	}
+
+	// set no route
+	r.NoRoute(func(c *gin.Context) {
+    c.JSON(404, gin.H{"code": 404, "message": "Page not found"})
+	})
 	
 	return r
  }
