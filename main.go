@@ -8,14 +8,14 @@ import (
 )
 
 func main() {
-		// initialize database
-		config.InitDB()
+	// initialize database
+	config.InitDB()
 
-		// setup router 
-		r := routes.SetupRouter()
+	// setup router
+	r := routes.SetupRouter()
 
-		err := r.Run()
-		if err != nil {
-			log.Println(err)
-		}
+	err := r.Run()
+	if err != nil {
+		log.Println(err)
+	}
 }

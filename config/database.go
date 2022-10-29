@@ -5,22 +5,22 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"github.com/joho/godotenv"
 )
 
 var DB *gorm.DB
 
-func InitDB() (bool) {
+func InitDB() bool {
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
-			SlowThreshold:              time.Second,   // Slow SQL threshold
-			LogLevel:                   logger.Info, // Log level
-			IgnoreRecordNotFoundError: true,           // Ignore ErrRecordNotFound error for logger
-			Colorful:                  true,          // Disable color
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level
+			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+			Colorful:                  true,        // Disable color
 		},
 	)
 
@@ -29,13 +29,13 @@ func InitDB() (bool) {
 		Logger: newLogger,
 	})
 	if err != nil {
-			log.Println(err)
+		log.Println(err)
 	}
 	DB = db
 	return true
 }
 
-func GetHost() (string) {
+func GetHost() string {
 	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
 	}

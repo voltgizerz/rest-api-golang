@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//GetUsers ... Get all users
+// GetUsers ... Get all users
 func GetPokemons(c *gin.Context) {
 	id := c.Param("id")
 	var err error
@@ -28,12 +28,12 @@ func GetPokemons(c *gin.Context) {
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"code": http.StatusOK,
-			"data":   pokemon,
+			"data": pokemon,
 		})
 	}
 }
 
-//PostPokemons - Create new pokemon
+// PostPokemons - Create new pokemon
 func PostPokemons(c *gin.Context) {
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	var pokemon models.Pokemon
@@ -41,7 +41,7 @@ func PostPokemons(c *gin.Context) {
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"code":  http.StatusBadRequest,
+			"code":    http.StatusBadRequest,
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
@@ -50,14 +50,14 @@ func PostPokemons(c *gin.Context) {
 		if result != nil {
 			// Failed insert pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"code":  http.StatusInternalServerError,
+				"code":    http.StatusInternalServerError,
 				"message": "failed insert data to database",
 				"data":    pokemon,
 			})
 		} else {
 			// success created new pokemon
 			c.JSON(http.StatusCreated, gin.H{
-				"code":     http.StatusCreated,
+				"code":       http.StatusCreated,
 				"message":    "created",
 				"created_at": time.Now().Format(time.RFC850),
 				"data":       pokemon,
@@ -66,7 +66,7 @@ func PostPokemons(c *gin.Context) {
 	}
 }
 
-//PatchPokemons - Create new pokemon
+// PatchPokemons - Create new pokemon
 func PatchPokemons(c *gin.Context) {
 	id := c.Param("id")
 	body, _ := ioutil.ReadAll(c.Request.Body)
@@ -75,23 +75,23 @@ func PatchPokemons(c *gin.Context) {
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"code":  http.StatusBadRequest,
+			"code":    http.StatusBadRequest,
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
 	} else {
-		result := models.UpdatePokemon(&pokemon,id)
+		result := models.UpdatePokemon(&pokemon, id)
 		if result != nil {
 			// Failed update pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"code":  http.StatusInternalServerError,
+				"code":    http.StatusInternalServerError,
 				"message": "failed update data to database",
 				"data":    pokemon,
 			})
 		} else {
 			// success updated pokemon
 			c.JSON(http.StatusCreated, gin.H{
-				"code":     http.StatusCreated,
+				"code":       http.StatusCreated,
 				"message":    "updated",
 				"updated_at": time.Now().Format(time.RFC850),
 				"data":       pokemon,
@@ -100,20 +100,20 @@ func PatchPokemons(c *gin.Context) {
 	}
 }
 
-//DeletePokemon delete pokemon
+// DeletePokemon delete pokemon
 func DeletePokemon(c *gin.Context) {
 	id := c.Param("id")
 	result := models.DeletePokemon(id)
 	if result != nil {
 		// Failed insert pokemon to database
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":  http.StatusInternalServerError,
+			"code":    http.StatusInternalServerError,
 			"message": "failed insert data to database",
 		})
 	} else {
 		// success deleted new pokemon
 		c.JSON(http.StatusOK, gin.H{
-			"code":     http.StatusOK,
+			"code":       http.StatusOK,
 			"message":    "deleted",
 			"deleted_at": time.Now().Format(time.RFC850),
 		})
