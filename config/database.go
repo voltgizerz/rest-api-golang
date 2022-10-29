@@ -8,6 +8,7 @@ import (
 	"rest-api-golang/logger"
 
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
@@ -18,8 +19,12 @@ type Database struct {
 }
 
 func InitDB() Database {
+	log := logger.Log.WithFields(logrus.Fields{
+		"LstdFlags": log.LstdFlags,
+	})
+
 	newLogger := gormLogger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		log, // io writer
 		gormLogger.Config{
 			SlowThreshold:             time.Second,     // Slow SQL threshold
 			LogLevel:                  gormLogger.Info, // Log level
@@ -33,15 +38,17 @@ func InitDB() Database {
 		Logger: newLogger,
 	})
 	if err != nil {
-		logger.Log.Error(err)
+		logger.Log.Fatal(err)
 	}
 
-	return Database{DB: db}
+	return Database{
+		DB: db,
+	}
 }
 
 func GetHost() string {
 	if err := godotenv.Load(); err != nil {
-		logger.Log.Error("No .env file found")
+		logger.Log.Fatal("No .env file found")
 	}
 
 	host, _ := os.LookupEnv("DB_HOST_LOCAL")

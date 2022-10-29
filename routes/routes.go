@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"net/http"
+	"os"
 	"rest-api-golang/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -8,6 +10,9 @@ import (
 
 func NewRouter(controllerPokemon controllers.PokemonController) *gin.Engine {
 	r := gin.New()
+
+	mode, _ := os.LookupEnv("GIN_MODE")
+	gin.SetMode(mode)
 
 	pokemon := r.Group("/api/v1/")
 	{
@@ -20,7 +25,10 @@ func NewRouter(controllerPokemon controllers.PokemonController) *gin.Engine {
 
 	// set no route
 	r.NoRoute(func(c *gin.Context) {
-		c.JSON(404, gin.H{"code": 404, "message": "Page not found"})
+		c.JSON(http.StatusNotFound, gin.H{
+			"code":    http.StatusNotFound,
+			"message": "Page not found",
+		})
 	})
 
 	return r
