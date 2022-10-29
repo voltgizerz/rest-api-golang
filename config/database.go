@@ -5,22 +5,26 @@ import (
 	"os"
 	"time"
 
+	"rest-api-golang/logger"
+
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLogger "gorm.io/gorm/logger"
 )
 
-var DB *gorm.DB
+type Database struct {
+	DB *gorm.DB
+}
 
-func InitDB() bool {
-	newLogger := logger.New(
+func InitDB() Database {
+	newLogger := gormLogger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
-		logger.Config{
-			SlowThreshold:             time.Second, // Slow SQL threshold
-			LogLevel:                  logger.Info, // Log level
-			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
-			Colorful:                  true,        // Disable color
+		gormLogger.Config{
+			SlowThreshold:             time.Second,     // Slow SQL threshold
+			LogLevel:                  gormLogger.Info, // Log level
+			IgnoreRecordNotFoundError: true,            // Ignore ErrRecordNotFound error for logger
+			Colorful:                  true,            // Disable color
 		},
 	)
 
@@ -29,16 +33,17 @@ func InitDB() bool {
 		Logger: newLogger,
 	})
 	if err != nil {
-		log.Println(err)
+		logger.Log.Error(err)
 	}
-	DB = db
-	return true
+
+	return Database{DB: db}
 }
 
 func GetHost() string {
 	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
+		logger.Log.Error("No .env file found")
 	}
+
 	host, _ := os.LookupEnv("DB_HOST_LOCAL")
 
 	env, _ := os.LookupEnv("ENV")

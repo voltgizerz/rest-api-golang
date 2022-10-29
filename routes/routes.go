@@ -6,15 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func NewRouter(controllerPokemon controllers.PokemonController) *gin.Engine {
+	r := gin.New()
+
 	pokemon := r.Group("/api/v1/")
 	{
-		pokemon.GET("pokemons/", controllers.GetPokemons)
-		pokemon.GET("pokemons/:id", controllers.GetPokemons)
-		pokemon.POST("pokemons/", controllers.PostPokemons)
-		pokemon.PATCH("pokemons/:id", controllers.PatchPokemons)
-		pokemon.DELETE("pokemons/:id", controllers.DeletePokemon)
+		pokemon.GET("pokemons/", controllerPokemon.GetPokemons)
+		pokemon.GET("pokemons/:id", controllerPokemon.GetPokemons)
+		pokemon.POST("pokemons/", controllerPokemon.PostPokemons)
+		pokemon.PATCH("pokemons/:id", controllerPokemon.PatchPokemons)
+		pokemon.DELETE("pokemons/:id", controllerPokemon.DeletePokemon)
 	}
 
 	// set no route

@@ -3,7 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"io/ioutil"
-	"rest-api-golang/models"
+	"rest-api-golang/entity"
+	"rest-api-golang/service"
 	"time"
 
 	"net/http"
@@ -11,32 +12,43 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type PokemonController struct {
+	PokemonService service.PokemonServiceInterface
+}
+
+func NewPokemonController(servicePokemon service.PokemonServiceInterface) PokemonController {
+	return PokemonController{
+		PokemonService: servicePokemon,
+	}
+}
+
 // GetUsers ... Get all users
-func GetPokemons(c *gin.Context) {
+func (p PokemonController) GetPokemons(c *gin.Context) {
 	id := c.Param("id")
 	var err error
-	var pokemon []models.Pokemon
+
+	var pokemon *[]entity.Pokemon
 
 	if id == "" {
-		err = models.GetAllPokemons(&pokemon)
+		pokemon, err = p.PokemonService.GetAllPokemons()
 	} else {
-		err = models.GetSinglePokemon(&pokemon, id)
+		pokemon, err = p.PokemonService.GetPokemon(id)
 	}
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code": http.StatusOK,
-			"data": pokemon,
-		})
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"data": pokemon,
+	})
 }
 
 // PostPokemons - Create new pokemon
-func PostPokemons(c *gin.Context) {
+func (p PokemonController) PostPokemons(c *gin.Context) {
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	var pokemon models.Pokemon
+	var pokemon entity.Pokemon
 
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
@@ -46,7 +58,7 @@ func PostPokemons(c *gin.Context) {
 			"data":    pokemon,
 		})
 	} else {
-		result := models.CreatePokemon(&pokemon)
+		result := p.PokemonService.CreatePokemon(&pokemon)
 		if result != nil {
 			// Failed insert pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -67,10 +79,10 @@ func PostPokemons(c *gin.Context) {
 }
 
 // PatchPokemons - Create new pokemon
-func PatchPokemons(c *gin.Context) {
+func (p PokemonController) PatchPokemons(c *gin.Context) {
 	id := c.Param("id")
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	var pokemon models.Pokemon
+	var pokemon entity.Pokemon
 
 	err := json.Unmarshal(body, &pokemon)
 	if err != nil {
@@ -80,7 +92,7 @@ func PatchPokemons(c *gin.Context) {
 			"data":    pokemon,
 		})
 	} else {
-		result := models.UpdatePokemon(&pokemon, id)
+		result := p.PokemonService.UpdatePokemon(&pokemon, id)
 		if result != nil {
 			// Failed update pokemon to database
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -101,9 +113,9 @@ func PatchPokemons(c *gin.Context) {
 }
 
 // DeletePokemon delete pokemon
-func DeletePokemon(c *gin.Context) {
+func (p PokemonController) DeletePokemon(c *gin.Context) {
 	id := c.Param("id")
-	result := models.DeletePokemon(id)
+	result := p.PokemonService.DeletePokemon(id)
 	if result != nil {
 		// Failed insert pokemon to database
 		c.JSON(http.StatusInternalServerError, gin.H{
