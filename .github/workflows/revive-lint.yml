@@ -6,7 +6,7 @@ on:
       - master
       - develop
     paths:
-      - '*/**.go'
+      - '*/.go'
       - 'revive.toml'
       - '.github/workflows/revive-lint.yml'
 
