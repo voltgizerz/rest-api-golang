@@ -57,25 +57,24 @@ func (p PokemonController) PostPokemons(c *gin.Context) {
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
-	} else {
-		result := p.PokemonService.CreatePokemon(&pokemon)
-		if result != nil {
-			// Failed insert pokemon to database
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code":    http.StatusInternalServerError,
-				"message": "failed insert data to database",
-				"data":    pokemon,
-			})
-		} else {
-			// success created new pokemon
-			c.JSON(http.StatusCreated, gin.H{
-				"code":       http.StatusCreated,
-				"message":    "created",
-				"created_at": time.Now().Format(time.RFC850),
-				"data":       pokemon,
-			})
-		}
 	}
+
+	result := p.PokemonService.CreatePokemon(&pokemon)
+	if result != nil {
+		// Failed insert pokemon to database
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": "failed insert data to database",
+			"data":    pokemon,
+		})
+	}
+	// success created new pokemon
+	c.JSON(http.StatusCreated, gin.H{
+		"code":       http.StatusCreated,
+		"message":    "created",
+		"created_at": time.Now().Format(time.RFC850),
+		"data":       pokemon,
+	})
 }
 
 // PatchPokemons - Create new pokemon
@@ -91,25 +90,25 @@ func (p PokemonController) PatchPokemons(c *gin.Context) {
 			"message": "request body not valid",
 			"data":    pokemon,
 		})
-	} else {
-		result := p.PokemonService.UpdatePokemon(&pokemon, id)
-		if result != nil {
-			// Failed update pokemon to database
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code":    http.StatusInternalServerError,
-				"message": "failed update data to database",
-				"data":    pokemon,
-			})
-		} else {
-			// success updated pokemon
-			c.JSON(http.StatusCreated, gin.H{
-				"code":       http.StatusCreated,
-				"message":    "updated",
-				"updated_at": time.Now().Format(time.RFC850),
-				"data":       pokemon,
-			})
-		}
 	}
+
+	result := p.PokemonService.UpdatePokemon(&pokemon, id)
+	if result != nil {
+		// Failed update pokemon to database
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": "failed update data to database",
+			"data":    pokemon,
+		})
+	}
+	// success updated pokemon
+	c.JSON(http.StatusCreated, gin.H{
+		"code":       http.StatusCreated,
+		"message":    "updated",
+		"updated_at": time.Now().Format(time.RFC850),
+		"data":       pokemon,
+	})
+
 }
 
 // DeletePokemon delete pokemon
@@ -122,12 +121,12 @@ func (p PokemonController) DeletePokemon(c *gin.Context) {
 			"code":    http.StatusInternalServerError,
 			"message": "failed insert data to database",
 		})
-	} else {
-		// success deleted new pokemon
-		c.JSON(http.StatusOK, gin.H{
-			"code":       http.StatusOK,
-			"message":    "deleted",
-			"deleted_at": time.Now().Format(time.RFC850),
-		})
 	}
+	// success deleted new pokemon
+	c.JSON(http.StatusOK, gin.H{
+		"code":       http.StatusOK,
+		"message":    "deleted",
+		"deleted_at": time.Now().Format(time.RFC850),
+	})
+
 }
