@@ -50,7 +50,7 @@ func InitDB() Database {
 
 func GetHost() string {
 	if err := godotenv.Load(); err != nil {
-		logger.Log.Fatal("No .env file found")
+		logger.Log.Error("No .env file found")
 	}
 
 	host, _ := os.LookupEnv("DB_HOST_LOCAL")
