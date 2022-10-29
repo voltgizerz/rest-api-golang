@@ -9,6 +9,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+// PokemonRepositoryInterface - ,
 type PokemonRepositoryInterface interface {
 	GetAllPokemons() (*[]entity.Pokemon, error)
 	GetPokemon(id string) (*[]entity.Pokemon, error)

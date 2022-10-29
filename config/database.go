@@ -14,10 +14,12 @@ import (
 	gormLogger "gorm.io/gorm/logger"
 )
 
+// Database - .
 type Database struct {
 	DB *gorm.DB
 }
 
+// InitDB - .
 func InitDB() Database {
 	log := logger.Log.WithFields(logrus.Fields{
 		"LstdFlags": log.LstdFlags,
