@@ -18,16 +18,19 @@ type PokemonRepositoryInterface interface {
 	UpdatePokemon(pokemon *entity.Pokemon, id string) error
 }
 
+// PokemonRepository - .
 type PokemonRepository struct {
 	DB *gorm.DB
 }
 
-func NewPokemonRepository(db config.Database) PokemonRepositoryInterface {
+// NewPokemonRepository - .
+func NewPokemonRepository(dbConfig config.Database) PokemonRepositoryInterface {
 	return &PokemonRepository{
-		DB: db.DB,
+		DB: dbConfig.ORM,
 	}
 }
 
+// GetAllPokemons - .
 func (p *PokemonRepository) GetAllPokemons() (*[]entity.Pokemon, error) {
 	pokemon := &[]entity.Pokemon{}
 	if err := p.DB.Preload(clause.Associations).Find(pokemon).Error; err != nil {
@@ -37,6 +40,7 @@ func (p *PokemonRepository) GetAllPokemons() (*[]entity.Pokemon, error) {
 	return pokemon, nil
 }
 
+// GetPokemon - .
 func (p *PokemonRepository) GetPokemon(id string) (*[]entity.Pokemon, error) {
 	pokemon := &[]entity.Pokemon{}
 	if err := p.DB.Preload(clause.Associations).Where("id = ?", id).Find(pokemon).Error; err != nil {
@@ -46,6 +50,7 @@ func (p *PokemonRepository) GetPokemon(id string) (*[]entity.Pokemon, error) {
 	return pokemon, nil
 }
 
+// CreatePokemon - .
 func (p *PokemonRepository) CreatePokemon(pokemon *entity.Pokemon) error {
 	if err := p.DB.Create(&pokemon).Error; err != nil {
 		logger.Log.Error("Error CreatePokemon")
@@ -54,6 +59,7 @@ func (p *PokemonRepository) CreatePokemon(pokemon *entity.Pokemon) error {
 	return nil
 }
 
+// DeletePokemon - .
 func (p *PokemonRepository) DeletePokemon(id string) error {
 	var pokemon *entity.Pokemon
 	if err := p.DB.Delete(&pokemon, id).Error; err != nil {
@@ -63,6 +69,7 @@ func (p *PokemonRepository) DeletePokemon(id string) error {
 	return nil
 }
 
+// UpdatePokemon - .
 func (p *PokemonRepository) UpdatePokemon(pokemon *entity.Pokemon, id string) error {
 	if err := p.DB.Model(&pokemon).Where("id = ?", id).Updates(pokemon).Error; err != nil {
 		logger.Log.Error("Error UpdatePokemon")

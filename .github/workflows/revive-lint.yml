@@ -24,6 +24,9 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
+    
+    - name: Run Test
+      run: go test -race -coverprofile=coverage.out -covermode=atomic ./...
 
     - name: Run Revive Action
       uses: docker://morphy/revive-action:v2

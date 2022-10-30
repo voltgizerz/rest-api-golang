@@ -12,17 +12,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PokemonController - ...
 type PokemonController struct {
 	PokemonService service.PokemonServiceInterface
 }
 
+// NewPokemonController - ...
 func NewPokemonController(servicePokemon service.PokemonServiceInterface) PokemonController {
 	return PokemonController{
 		PokemonService: servicePokemon,
 	}
 }
 
-// GetUsers ... Get all users
+// GetPokemons - Get all pokemons
 func (p PokemonController) GetPokemons(c *gin.Context) {
 	id := c.Param("id")
 	var err error

@@ -1,33 +1,60 @@
 package controllers
 
-// import (
-// 	"net/http"
-// 	"net/http/httptest"
-// 	"testing"
+import (
+	"net/http/httptest"
+	"rest-api-golang/entity"
+	"rest-api-golang/errors"
+	"rest-api-golang/mocks"
+	"testing"
 
-// 	"github.com/gin-gonic/gin"
-// 	"github.com/stretchr/testify/assert"
-// )
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/assert/v2"
+	"github.com/golang/mock/gomock"
+)
 
-// func TestGetPokemons(t *testing.T) {
-// 	gin.SetMode(gin.TestMode)
-// 	testRouter := SetupRouter()
+func TestPokemonController_GetPokemons(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-// 	req, err := http.NewRequest("GET", "/api/v1/pokemons", nil)
-// 	if err != nil {
-// 		panic(err)
-// 	}
+	mockPokeService := mocks.NewMockPokemonServiceInterface(ctrl)
+	var pokemon *[]entity.Pokemon
 
-// 	resp := httptest.NewRecorder()
-// 	testRouter.ServeHTTP(resp, req)
-// 	assert.Equal(t, resp.Code, 200, "response code should equal 200")
-// }
+	pc := NewPokemonController(mockPokeService)
 
-// func SetupRouter() *gin.Engine {
-// 	r := gin.Default()
-// 	grp1 := r.Group("/api/v1/")
-// 	{
-// 		grp1.GET("pokemons/", GetPokemons)
-// 	}
-// 	return r
-// }
+	t.Run("Success GetAllPokemons 200 OK", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+
+		mockPokeService.EXPECT().GetAllPokemons().Return(pokemon, nil)
+
+		pc.GetPokemons(c)
+
+		assert.Equal(t, w.Code, 200)
+	})
+
+	t.Run("Success GetPokemon 200 OK", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+
+		c.Params = []gin.Param{{Key: "id", Value: "123"}}
+
+		mockPokeService.EXPECT().GetPokemon("123").Return(pokemon, nil)
+
+		pc.GetPokemons(c)
+
+		assert.Equal(t, w.Code, 200)
+	})
+
+	t.Run("Error", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+
+		c.Params = []gin.Param{{Key: "id", Value: "123"}}
+
+		mockPokeService.EXPECT().GetPokemon("123").Return(nil, errors.ErrorOccur)
+
+		pc.GetPokemons(c)
+
+		assert.Equal(t, w.Code, 404)
+	})
+}

@@ -16,7 +16,7 @@ import (
 
 // Database - .
 type Database struct {
-	DB *gorm.DB
+	ORM *gorm.DB
 }
 
 // InitDB - .
@@ -44,10 +44,11 @@ func InitDB() Database {
 	}
 
 	return Database{
-		DB: db,
+		ORM: db,
 	}
 }
 
+// GetHost - . 
 func GetHost() string {
 	if err := godotenv.Load(); err != nil {
 		logger.Log.Error("No .env file found")

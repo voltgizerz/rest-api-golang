@@ -25,7 +25,11 @@ func main() {
 	controllerPokemon := controllers.NewPokemonController(servicePokemon)
 
 	// setup router
-	r := routes.NewRouter(controllerPokemon)
+	controller := routes.RouterController{
+		Pokemon: controllerPokemon,
+	}
+
+	r := routes.NewRouter(controller)
 
 	err := r.Run()
 	if err != nil {

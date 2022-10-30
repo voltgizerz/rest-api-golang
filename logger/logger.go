@@ -5,6 +5,7 @@ import (
 	logrus "github.com/sirupsen/logrus"
 )
 
+// Log - logrus logging.
 var Log *logrus.Logger
 
 // SetupLog - return logrus.
