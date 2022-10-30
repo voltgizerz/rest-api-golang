@@ -13,7 +13,7 @@ mockgen:
 	mockgen -source=./repository/pokemon.go -destination ./mocks/mocks_repoPokemon.go 
 
 test:
-	go test -race -coverprofile=coverage.out -covermode=atomic ./...
+	go test -v -cover ./...
 
 cover-out:
 	go test ./...  -coverpkg=./... -coverprofile ./coverage.out

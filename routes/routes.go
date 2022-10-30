@@ -14,7 +14,7 @@ type RouterController struct {
 }
 
 // NewRouter - init router.
-func NewRouter(controllers RouterController) *gin.Engine {
+func NewRouter(controller RouterController) *gin.Engine {
 	r := gin.New()
 
 	mode, _ := os.LookupEnv("GIN_MODE")
@@ -22,11 +22,11 @@ func NewRouter(controllers RouterController) *gin.Engine {
 
 	pokemon := r.Group("/api/v1/")
 	{
-		pokemon.GET("pokemons/", controllers.Pokemon.GetPokemons)
-		pokemon.GET("pokemons/:id", controllers.Pokemon.GetPokemons)
-		pokemon.POST("pokemons/", controllers.Pokemon.PostPokemons)
-		pokemon.PATCH("pokemons/:id", controllers.Pokemon.PatchPokemons)
-		pokemon.DELETE("pokemons/:id", controllers.Pokemon.DeletePokemon)
+		pokemon.GET("pokemons/", controller.Pokemon.GetPokemons)
+		pokemon.GET("pokemons/:id", controller.Pokemon.GetPokemons)
+		pokemon.POST("pokemons/", controller.Pokemon.PostPokemons)
+		pokemon.PATCH("pokemons/:id", controller.Pokemon.PatchPokemons)
+		pokemon.DELETE("pokemons/:id", controller.Pokemon.DeletePokemon)
 	}
 
 	// set no route
