@@ -1,6 +1,9 @@
-name: Lint
+name: Lint & Test
 on:
   pull_request:
+     branches:
+      - master
+      - develop
   push:
     branches:
       - master
