@@ -40,6 +40,7 @@ func (p *PokemonService) GetPokemon(id string) (*[]entity.Pokemon, error) {
 func (p *PokemonService) CreatePokemon(pokemon *entity.Pokemon) error {
 	return p.PokemonRepository.CreatePokemon(pokemon)
 }
+
 // DeletePokemon - ...
 func (p *PokemonService) DeletePokemon(id string) error {
 	return p.PokemonRepository.DeletePokemon(id)

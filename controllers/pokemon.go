@@ -110,7 +110,6 @@ func (p PokemonController) PatchPokemons(c *gin.Context) {
 		"updated_at": time.Now().Format(time.RFC850),
 		"data":       pokemon,
 	})
-
 }
 
 // DeletePokemon delete pokemon
@@ -130,5 +129,4 @@ func (p PokemonController) DeletePokemon(c *gin.Context) {
 		"message":    "deleted",
 		"deleted_at": time.Now().Format(time.RFC850),
 	})
-
 }

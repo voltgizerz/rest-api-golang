@@ -12,7 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
 func mockDBConn(t *testing.T) (sqlmock.Sqlmock, *gorm.DB) {
 	var mockORM *gorm.DB
 

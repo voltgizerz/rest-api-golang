@@ -3,7 +3,7 @@ run:
 
 format:
 	gofmt -w ./..
-	revive ./...
+	revive -config revive.toml ./...
 
 build:
 	go build

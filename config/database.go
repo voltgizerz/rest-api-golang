@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	oldLog "log"
 	"os"
 	"time"
 
@@ -22,7 +22,7 @@ type Database struct {
 // InitDB - .
 func InitDB() Database {
 	log := logger.Log.WithFields(logrus.Fields{
-		"LstdFlags": log.LstdFlags,
+		"LstdFlags": oldLog.LstdFlags,
 	})
 
 	newLogger := gormLogger.New(
@@ -48,7 +48,7 @@ func InitDB() Database {
 	}
 }
 
-// GetHost - . 
+// GetHost - .
 func GetHost() string {
 	if err := godotenv.Load(); err != nil {
 		logger.Log.Error("No .env file found")
