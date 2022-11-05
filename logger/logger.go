@@ -5,6 +5,7 @@ import (
 	logrus "github.com/sirupsen/logrus"
 )
 
+//revive:disable:import-shadowing
 // Log - logrus logging.
 var Log *logrus.Logger
 
