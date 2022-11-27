@@ -15,6 +15,9 @@ type PokemonRepositoryInterface interface {
 	CreatePokemon(pokemon *entity.Pokemon) error
 	DeletePokemon(id string) error
 	UpdatePokemon(pokemon *entity.Pokemon, id string) error
+	CreateTx() *gorm.DB
+	RollbackTx() *gorm.DB
+	CommitTx() error
 }
 
 // PokemonRepository - .
@@ -77,6 +80,7 @@ func (p *PokemonRepository) UpdatePokemon(pokemon *entity.Pokemon, id string) er
 	return nil
 }
 
+// DBWithPreloads - preload data.
 func (p *PokemonRepository) DBWithPreloads(preloads []string) *gorm.DB {
 	dbConn := p.DB
 
@@ -85,4 +89,19 @@ func (p *PokemonRepository) DBWithPreloads(preloads []string) *gorm.DB {
 	}
 
 	return dbConn
+}
+
+// CreateTx - create database transaction
+func (p *PokemonRepository) CreateTx() *gorm.DB {
+	return p.DB.Begin()
+}
+
+// RollbackTx - rollback transaction
+func (p *PokemonRepository) RollbackTx() *gorm.DB {
+	return p.DB.Rollback()
+}
+
+// CommitTx - commit transaction
+func (p *PokemonRepository) CommitTx() error {
+	return p.DB.Commit().Error
 }

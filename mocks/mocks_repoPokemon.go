@@ -9,6 +9,7 @@ import (
 	entity "rest-api-golang/entity"
 
 	gomock "github.com/golang/mock/gomock"
+	gorm "gorm.io/gorm"
 )
 
 // MockPokemonRepositoryInterface is a mock of PokemonRepositoryInterface interface.
@@ -34,6 +35,20 @@ func (m *MockPokemonRepositoryInterface) EXPECT() *MockPokemonRepositoryInterfac
 	return m.recorder
 }
 
+// CommitTx mocks base method.
+func (m *MockPokemonRepositoryInterface) CommitTx() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CommitTx")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CommitTx indicates an expected call of CommitTx.
+func (mr *MockPokemonRepositoryInterfaceMockRecorder) CommitTx() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitTx", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).CommitTx))
+}
+
 // CreatePokemon mocks base method.
 func (m *MockPokemonRepositoryInterface) CreatePokemon(pokemon *entity.Pokemon) error {
 	m.ctrl.T.Helper()
@@ -46,6 +61,20 @@ func (m *MockPokemonRepositoryInterface) CreatePokemon(pokemon *entity.Pokemon) 
 func (mr *MockPokemonRepositoryInterfaceMockRecorder) CreatePokemon(pokemon interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePokemon", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).CreatePokemon), pokemon)
+}
+
+// CreateTx mocks base method.
+func (m *MockPokemonRepositoryInterface) CreateTx() *gorm.DB {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTx")
+	ret0, _ := ret[0].(*gorm.DB)
+	return ret0
+}
+
+// CreateTx indicates an expected call of CreateTx.
+func (mr *MockPokemonRepositoryInterfaceMockRecorder) CreateTx() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).CreateTx))
 }
 
 // DeletePokemon mocks base method.
@@ -99,6 +128,20 @@ func (mr *MockPokemonRepositoryInterfaceMockRecorder) GetPokemon(id interface{},
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{id}, preloads...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPokemon", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).GetPokemon), varargs...)
+}
+
+// RollbackTx mocks base method.
+func (m *MockPokemonRepositoryInterface) RollbackTx() *gorm.DB {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RollbackTx")
+	ret0, _ := ret[0].(*gorm.DB)
+	return ret0
+}
+
+// RollbackTx indicates an expected call of RollbackTx.
+func (mr *MockPokemonRepositoryInterfaceMockRecorder) RollbackTx() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RollbackTx", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).RollbackTx))
 }
 
 // UpdatePokemon mocks base method.
