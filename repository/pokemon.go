@@ -6,13 +6,12 @@ import (
 	"rest-api-golang/logger"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 // PokemonRepositoryInterface - ,
 type PokemonRepositoryInterface interface {
-	GetAllPokemons() (*[]entity.Pokemon, error)
-	GetPokemon(id string) (*[]entity.Pokemon, error)
+	GetAllPokemons(preloads ...string) (*[]entity.Pokemon, error)
+	GetPokemon(id string, preloads ...string) (*[]entity.Pokemon, error)
 	CreatePokemon(pokemon *entity.Pokemon) error
 	DeletePokemon(id string) error
 	UpdatePokemon(pokemon *entity.Pokemon, id string) error
@@ -31,9 +30,9 @@ func NewPokemonRepository(dbConfig config.Database) PokemonRepositoryInterface {
 }
 
 // GetAllPokemons - .
-func (p *PokemonRepository) GetAllPokemons() (*[]entity.Pokemon, error) {
+func (p *PokemonRepository) GetAllPokemons(preloads ...string) (*[]entity.Pokemon, error) {
 	pokemon := &[]entity.Pokemon{}
-	if err := p.DB.Preload(clause.Associations).Find(pokemon).Error; err != nil {
+	if err := p.DBWithPreloads(preloads).Find(pokemon).Error; err != nil {
 		logger.Log.Error("Error GetAllPokemons")
 		return nil, err
 	}
@@ -41,9 +40,9 @@ func (p *PokemonRepository) GetAllPokemons() (*[]entity.Pokemon, error) {
 }
 
 // GetPokemon - .
-func (p *PokemonRepository) GetPokemon(id string) (*[]entity.Pokemon, error) {
+func (p *PokemonRepository) GetPokemon(id string, preloads ...string) (*[]entity.Pokemon, error) {
 	pokemon := &[]entity.Pokemon{}
-	if err := p.DB.Preload(clause.Associations).Where("id = ?", id).Find(pokemon).Error; err != nil {
+	if err := p.DBWithPreloads(preloads).Where("id = ?", id).Find(pokemon).Error; err != nil {
 		logger.Log.Error("Error GetPokemon")
 		return nil, err
 	}
@@ -76,4 +75,14 @@ func (p *PokemonRepository) UpdatePokemon(pokemon *entity.Pokemon, id string) er
 		return err
 	}
 	return nil
+}
+
+func (p *PokemonRepository) DBWithPreloads(preloads []string) *gorm.DB {
+	dbConn := p.DB
+
+	for _, preload := range preloads {
+		dbConn = dbConn.Preload(preload)
+	}
+
+	return dbConn
 }

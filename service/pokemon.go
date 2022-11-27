@@ -28,12 +28,12 @@ func NewPokemonService(repoPokemon repository.PokemonRepositoryInterface) Pokemo
 
 // GetAllPokemons - ...
 func (p *PokemonService) GetAllPokemons() (*[]entity.Pokemon, error) {
-	return p.PokemonRepository.GetAllPokemons()
+	return p.PokemonRepository.GetAllPokemons("Types")
 }
 
 // GetPokemon - ...
 func (p *PokemonService) GetPokemon(id string) (*[]entity.Pokemon, error) {
-	return p.PokemonRepository.GetPokemon(id)
+	return p.PokemonRepository.GetPokemon(id, "Types")
 }
 
 // CreatePokemon - ...

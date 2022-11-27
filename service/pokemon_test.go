@@ -20,7 +20,7 @@ func TestPokemonService_GetPokemon(t *testing.T) {
 	ps := NewPokemonService(mockPokeRepo)
 
 	t.Run("Success", func(t *testing.T) {
-		mockPokeRepo.EXPECT().GetPokemon("1").Return(pokemon, nil)
+		mockPokeRepo.EXPECT().GetPokemon("1", "Types").Return(pokemon, nil)
 
 		poke, err := ps.GetPokemon("1")
 
@@ -29,7 +29,7 @@ func TestPokemonService_GetPokemon(t *testing.T) {
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		mockPokeRepo.EXPECT().GetPokemon("1").Return(pokemon, errors.ErrorOccur)
+		mockPokeRepo.EXPECT().GetPokemon("1", "Types").Return(pokemon, errors.ErrorOccur)
 
 		poke, err := ps.GetPokemon("1")
 
@@ -48,7 +48,7 @@ func TestPokemonService_GetAllPokemons(t *testing.T) {
 	ps := NewPokemonService(mockPokeRepo)
 
 	t.Run("Success", func(t *testing.T) {
-		mockPokeRepo.EXPECT().GetAllPokemons().Return(pokemon, nil)
+		mockPokeRepo.EXPECT().GetAllPokemons("Types").Return(pokemon, nil)
 
 		poke, err := ps.GetAllPokemons()
 
@@ -57,7 +57,7 @@ func TestPokemonService_GetAllPokemons(t *testing.T) {
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		mockPokeRepo.EXPECT().GetAllPokemons().Return(pokemon, errors.ErrorOccur)
+		mockPokeRepo.EXPECT().GetAllPokemons("Types").Return(pokemon, errors.ErrorOccur)
 
 		poke, err := ps.GetAllPokemons()
 

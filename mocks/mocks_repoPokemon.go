@@ -63,33 +63,42 @@ func (mr *MockPokemonRepositoryInterfaceMockRecorder) DeletePokemon(id interface
 }
 
 // GetAllPokemons mocks base method.
-func (m *MockPokemonRepositoryInterface) GetAllPokemons() (*[]entity.Pokemon, error) {
+func (m *MockPokemonRepositoryInterface) GetAllPokemons(preloads ...string) (*[]entity.Pokemon, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllPokemons")
+	varargs := []interface{}{}
+	for _, a := range preloads {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAllPokemons", varargs...)
 	ret0, _ := ret[0].(*[]entity.Pokemon)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllPokemons indicates an expected call of GetAllPokemons.
-func (mr *MockPokemonRepositoryInterfaceMockRecorder) GetAllPokemons() *gomock.Call {
+func (mr *MockPokemonRepositoryInterfaceMockRecorder) GetAllPokemons(preloads ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllPokemons", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).GetAllPokemons))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllPokemons", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).GetAllPokemons), preloads...)
 }
 
 // GetPokemon mocks base method.
-func (m *MockPokemonRepositoryInterface) GetPokemon(id string) (*[]entity.Pokemon, error) {
+func (m *MockPokemonRepositoryInterface) GetPokemon(id string, preloads ...string) (*[]entity.Pokemon, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPokemon", id)
+	varargs := []interface{}{id}
+	for _, a := range preloads {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetPokemon", varargs...)
 	ret0, _ := ret[0].(*[]entity.Pokemon)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetPokemon indicates an expected call of GetPokemon.
-func (mr *MockPokemonRepositoryInterfaceMockRecorder) GetPokemon(id interface{}) *gomock.Call {
+func (mr *MockPokemonRepositoryInterfaceMockRecorder) GetPokemon(id interface{}, preloads ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPokemon", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).GetPokemon), id)
+	varargs := append([]interface{}{id}, preloads...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPokemon", reflect.TypeOf((*MockPokemonRepositoryInterface)(nil).GetPokemon), varargs...)
 }
 
 // UpdatePokemon mocks base method.
